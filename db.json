@@ -11,9 +11,37 @@
           "class": "이우성",
           "color": "red",
           "checked": true
+        },
+        {
+          "order": 2,
+          "class": "ㄴㅇㄹㄴㅇㄹ",
+          "color": "#1d83fe",
+          "checked": true
+        },
+        {
+          "order": 3,
+          "class": "ㅁㄹㄴㅇㄹㅇㄹ",
+          "color": "#dac749",
+          "checked": true
+        },
+        {
+          "order": 4,
+          "class": "ㅁㄹㄴㄹㅇㄹ",
+          "color": "#9b9451",
+          "checked": true
         }
       ],
-      "schedules": []
+      "schedules": [
+        {
+          "id": 1,
+          "from": "20200614",
+          "to": "20200625",
+          "title": "(제목 없음)",
+          "memo": "(설명 없음)",
+          "length": 11,
+          "fkTable": 1
+        }
+      ]
     },
     {
       "id": "jihyeon",
@@ -28,60 +56,63 @@
           "checked": false
         },
         {
-          "order": 4,
-          "class": "asfasfdf",
-          "color": "#60344b",
+          "order": 2,
+          "class": "ㅁㄴㄹㄴㅁㅇㄹㄴㅁㅇㄹ",
+          "color": "#b6434b",
           "checked": true
         },
         {
-          "order": 5,
-          "class": "asdasdas",
-          "color": "#87565f",
-          "checked": true
-        },
-        {
-          "order": 7,
-          "class": "asdasdasd",
-          "color": "#3e59be",
+          "order": 3,
+          "class": "ㅁㄴㄹㄴㅁㄹㄴㅇㅁㄹ",
+          "color": "#cf9bed",
           "checked": true
         }
       ],
       "schedules": [
         {
-          "id": 2,
-          "from": "20200614",
-          "to": "20200617",
-          "title": "afasfasdfasd",
+          "id": 1,
+          "from": "20200615",
+          "to": "20200615",
+          "title": "ㄴㅇㄻㄴㅇㄴㅁㅇㄹ",
           "memo": "(설명 없음)",
-          "length": 3,
+          "length": 0,
           "fkTable": 1
         },
         {
-          "id": 4,
-          "from": "20200608",
-          "to": "20200608",
-          "title": "asfsafasdf",
+          "id": 2,
+          "from": "20200615",
+          "to": "20200619",
+          "title": "ㄴㅁㄹㄴㅁㄹㄴㅇㄹ",
+          "memo": "(설명 없음)",
+          "length": 4,
+          "fkTable": 1
+        },
+        {
+          "id": 3,
+          "from": "20200615",
+          "to": "20200615",
+          "title": "ㅁㄴㄹㄴㄹㄴㅁㅇㄹㄴㅇㄹ",
           "memo": "(설명 없음)",
           "length": 0,
-          "fkTable": 4
+          "fkTable": 3
+        },
+        {
+          "id": 4,
+          "from": "20200616",
+          "to": "20200619",
+          "title": "ㅁㄴㄹㄴㄹㄴㅁㄹ",
+          "memo": "(설명 없음)",
+          "length": 3,
+          "fkTable": 3
         },
         {
           "id": 5,
-          "from": "20200601",
-          "to": "20200604",
-          "title": "(제목 없음)",
+          "from": "20200615",
+          "to": "20200615",
+          "title": "ㅇㄴㄹㄴㅇㅁㄹㅇㄴㅁㄹ",
           "memo": "(설명 없음)",
-          "length": 3,
-          "fkTable": 4
-        },
-        {
-          "id": 8,
-          "from": "20200601",
-          "to": "20200603",
-          "title": "(제목 없음)",
-          "memo": "(설명 없음)",
-          "length": 2,
-          "fkTable": 5
+          "length": 0,
+          "fkTable": 3
         }
       ]
     },

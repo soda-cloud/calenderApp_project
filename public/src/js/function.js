@@ -153,7 +153,6 @@ function schedulesRender() {
   const firstSaturday = 7 - newDay.getDay();
   // 토요일을 찾는 함수
   function searchSaturday() {
-    const saturdaySchedules = [];
     // 첫 토요일
     for (let i = 0; i < 4; i++) {
       if (firstSaturday + i * 7 < 30) {

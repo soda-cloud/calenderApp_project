@@ -326,6 +326,37 @@ $checkScheduleRemove.onclick = () => {
 // 랜더
 function schedulesRender() {
   const _schedules = [...schedules];
+  const saturday = [];
+  const $monthYear = document.querySelector('.month-year');
+  const year = +$monthYear.textContent.substring(0, 4);
+  const month = !isNaN(+$monthYear.textContent.substring(6, 8))
+    ? +$monthYear.textContent.substring(6, 8)
+    : +$monthYear.textContent.substring(6, 7);
+  const newDay = new Date(year, month - 1);
+  const firstSaturday = 7 - newDay.getDay();
+
+  // 토요일 찾기
+  function searchSaturday() {
+    // 첫 토요일
+    for (let i = 0; i < 4; i++) {
+      if (firstSaturday + i * 7 < 30) {
+        saturday.push(firstSaturday + i * 7);
+      }
+    }
+    // console.log(saturday, 'saturday');
+    // 토요일들을 구함
+    _schedules.forEach(schedule => {
+      const _from = +schedule.from.substring(6, 8);
+      const _to = +schedule.to.substring(6, 8);
+      schedule.saturday = [];
+      for (let i = 0; i < saturday.length; i++) {
+        if (_from <= saturday[i] && _to >= saturday[i]) {
+          const sat = saturday[i];
+          schedule.saturday.push(sat);
+        }
+      }
+    });
+  }
 
   // length값으로 sort
   function compare(length) {
@@ -356,17 +387,80 @@ function schedulesRender() {
       ? $monthYear.textContent.substring(6, 8)
       : 0 + $monthYear.textContent.substring(6, 7);
     const newDay = new Date(year, +month + 1, -1).getDate();
-    console.log(newDay);
     for (let i = 1; i <= newDay; i++) {
       const $clear = document.getElementById(`${year}${month}${i < 10 ? '0' + i : i}`);
       $clear.querySelector('.schedule-inner-container').innerHTML = '';
     }
   }
+
+  function renderSaturday() {
+    _schedules.forEach(({
+      id, title, from, to, saturday, dep, fkTable
+    }) => {
+      if (!document.getElementById(`${from}`) || document.getElementById(`${id}`)) return;
+      if (!saturday.length) return;
+      console.log('saturday', saturday);
+      async function LineSaturday() {
+        for (let i = 0; i < saturday.length + 1; i++) {
+          // from부터 그리기
+          if (i === 0) {
+            const $sub = document.getElementById(`${from}`);
+            $sub.querySelector('.schedule-inner-container').innerHTML += `<div id="${id}" class="schedule-list sub1-${id}" role="button">${title}</div>`;
+
+            const response = await axios.get(`/users/${localStorage.getItem('userTk')}/tables`);
+            const tables = response.data;
+            const bgcolor = tables.find(table => table.order === fkTable).color;
+
+            document.querySelector(`.sub1-${id}`).style.width = `${99 * (saturday[0] - from.substring(6, 8) + 1)}%`;
+            document.querySelector(`.sub1-${id}`).style.transform = `translateY(${dep * 110}%)`;
+            document.querySelector(`.sub1-${id}`).style.backgroundColor = `${bgcolor}`;
+          } else if (i === saturday.length) {
+            // to까지 그리기
+            const $subEnd = document.getElementById(`${year}${month < 10 ? '0' + month : month}${saturday[i - 1] < 10 ? '0' + (saturday[i - 1] + 1) : saturday[i - 1] + 1}`);
+            console.log('$subEnd', $subEnd);
+
+            $subEnd.querySelector('.schedule-inner-container').innerHTML += `<div id="${id}" class="schedule-list subLast-${id}" role="button">${title}</div>`;
+
+            const response = await axios.get(`/users/${localStorage.getItem('userTk')}/tables`);
+            const tables = response.data;
+            const bgcolor = tables.find(table => table.order === fkTable).color;
+            document.querySelector(`.subLast-${id}`).style.width = `${99 * (to.substring(6, 8) - saturday[i - 1])}%`;
+            document.querySelector(`.subLast-${id}`).style.transform = `translateY(${dep * 110}%)`;
+            document.querySelector(`.subLast-${id}`).style.backgroundColor = `${bgcolor}`;
+          } else {
+            // 나머지
+            const $subEnd = document.getElementById(`${year}${month < 10 ? '0' + month : month}${saturday[i - 1] < 10 ? '0' + (saturday[i - 1] + 1) : saturday[i - 1] + 1}`);
+            console.log('$subEnd-2', $subEnd);
+
+            $subEnd.querySelector('.schedule-inner-container').innerHTML += `<div id="${id}" class="schedule-list submid-${id}" role="button">${title}</div>`;
+
+            const response = await axios.get(`/users/${localStorage.getItem('userTk')}/tables`);
+            const tables = response.data;
+            const bgcolor = tables.find(table => table.order === fkTable).color;
+
+            [...document.querySelectorAll(`.submid-${id}`)].forEach(mid => {
+              mid.style.width = `${99 * (7)}%`;
+              mid.style.transform = `translateY(${dep * 110}%)`;
+              mid.style.backgroundColor = `${bgcolor}`;
+            });
+            // document.querySelectorAll(`.submid-${id}`).style.width = `${99 * (7)}%`;
+            // document.querySelector(`.submid-${id}`).style.transform = `translateY(${dep * 110}%)`;
+            // document.querySelector(`.submid-${id}`).style.backgroundColor = `${bgcolor}`;
+          }
+        }
+      }
+      LineSaturday();
+    });
+  }
+
   // render
   function render() {
+    searchSaturday();
     createDep();
     clear();
+    renderSaturday();
     _schedules.forEach(schedule => {
+      if (schedule.saturday.length) return;
       if (!document.getElementById(`${schedule.from}`) || document.getElementById(`${schedule.id}`)) return;
 
       async function paintSchedules() {
